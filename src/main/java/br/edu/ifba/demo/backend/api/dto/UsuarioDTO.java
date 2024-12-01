@@ -7,7 +7,6 @@ import java.util.List;
 import br.edu.ifba.demo.backend.api.model.UsuarioModel;
 
 public class UsuarioDTO implements Serializable {
-
 	private Long id_usuario;
 	private String login;
 	private String senha;
@@ -25,8 +24,7 @@ public class UsuarioDTO implements Serializable {
 	}
 	
 	public static List<UsuarioDTO> converter(List<UsuarioModel> usuarios) {
-		List<UsuarioDTO> list=new ArrayList<UsuarioDTO>();
-		
+		List<UsuarioDTO> list = new ArrayList<UsuarioDTO>();
 		for (UsuarioModel model : usuarios) {
 			list.add( UsuarioDTO.converter(model)) ;
 		}
@@ -34,12 +32,9 @@ public class UsuarioDTO implements Serializable {
 		// return clientes.stream().map( Cliente :: converter).collect(Collectors.toList());
 	}
 	
-	
 	public UsuarioDTO() {
 		super();
 	}
-	
-	
 	
 	public UsuarioDTO(Long id_usuario, String login, String senha) {
 		super();
@@ -67,35 +62,32 @@ public class UsuarioDTO implements Serializable {
 	public String getLogin() {
 		return login;
 	}
+
 	public void setLogin(String login) {
 		this.login = login;
 	}
+
 	public String getSenha() {
 		return senha;
 	}
+
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-
 
 	public Timestamp getCreate_at() {
 		return create_at;
 	}
 
-
 	public Timestamp getLast_login() {
 		return last_login;
 	}
 
-
 	public void setCreate_at(Timestamp create_at) {
 		this.create_at = create_at;
 	}
-
-
+	
 	public void setLast_login(Timestamp last_login) {
 		this.last_login = last_login;
 	}
-
-	
 }
