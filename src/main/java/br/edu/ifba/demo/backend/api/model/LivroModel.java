@@ -14,7 +14,6 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "livro")
 public class LivroModel {
-    
     @Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id_livro")
@@ -41,15 +40,6 @@ public class LivroModel {
     @Column(name = "num_paginas", nullable = true)
     private Integer num_paginas;
 
-    @Column(name = "sinopse", nullable = true)
-    private String sinopse;
-
-    @Column(name = "idioma", nullable = true)
-    private String idioma;
-
     @Column(name = "data_cadastro", nullable = true)
     private Timestamp data_cadastro;
-
-    @Column(name = "preco", nullable = true)
-    private Double preco;
 }
