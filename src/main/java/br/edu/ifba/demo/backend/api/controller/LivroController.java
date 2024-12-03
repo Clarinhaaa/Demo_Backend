@@ -43,9 +43,9 @@ public class LivroController {
         return livros;
     }
     
-    @GetMapping("/getById/{idLivro}")
-    public LivroModel getById(@PathVariable("idLivro") Long idLivro) {
-        Optional<LivroModel> livro = livroRepository.findById(idLivro);
+    @GetMapping("/getById/{id}")
+    public LivroModel getById(@PathVariable("id") Long id) {
+        Optional<LivroModel> livro = livroRepository.findById(id);
         if (livro.isPresent())
             return livro.get();
         return null;
