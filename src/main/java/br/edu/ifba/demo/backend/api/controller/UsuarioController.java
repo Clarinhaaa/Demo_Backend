@@ -70,7 +70,7 @@ public class UsuarioController {
     }
 
 	// Método para adicionar um novo usuário
-	@PostMapping
+	@PostMapping("/")
 	public ResponseEntity<UsuarioModel> addUsuario(@RequestBody UsuarioModel usuario) {
 		UsuarioModel savedUsuario = usuRepository.save(usuario);
 		return new ResponseEntity<>(savedUsuario, HttpStatus.CREATED);

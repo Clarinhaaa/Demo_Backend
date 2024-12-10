@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifba.demo.backend.api.model.LivroModel;
 import br.edu.ifba.demo.backend.api.repository.LivroRepository;
-import jakarta.websocket.server.PathParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,8 +33,6 @@ public class LivroController {
     public String teste() {
         return "Testando rota livro";
     }
-
-    //* Métodos para fazer: listall, getById, getbyIsbn, getByTitulo, adicionar, deletar */
 
     @GetMapping("/listall")
     public List<LivroModel> listall() {
@@ -67,15 +64,15 @@ public class LivroController {
         return null;
     }
 
-    @PostMapping
+    @PostMapping("/")
     public ResponseEntity<LivroModel> addLivro(@RequestBody LivroModel livro) {
         LivroModel savedLivro = livroRepository.save(livro);
         return new ResponseEntity<LivroModel>(savedLivro, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{idLivro}")
-    public ResponseEntity<LivroModel> deleteLivro(@PathParam("idLivro") Long idLivro) {
-        Optional<LivroModel> livro = livroRepository.findById(idLivro);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<LivroModel> deleteLivro(@PathVariable("id") Long id) {
+        Optional<LivroModel> livro = livroRepository.findById(id);
         if (livro.isPresent()) {
             livroRepository.delete(livro.get());
             return new ResponseEntity<LivroModel>(livro.get(), HttpStatus.OK);
