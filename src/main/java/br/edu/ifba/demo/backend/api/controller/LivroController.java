@@ -64,7 +64,7 @@ public class LivroController {
         return null;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ResponseEntity<LivroModel> addLivro(@RequestBody LivroModel livro) {
         LivroModel savedLivro = livroRepository.save(livro);
         return new ResponseEntity<LivroModel>(savedLivro, HttpStatus.CREATED);
