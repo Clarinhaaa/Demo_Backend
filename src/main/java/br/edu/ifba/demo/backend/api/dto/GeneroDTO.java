@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifba.demo.backend.api.model.GeneroModel;
-import br.edu.ifba.demo.backend.api.model.LivroModel;
 
 public class GeneroDTO implements Serializable {
     private Long id_genero;
