@@ -3,7 +3,9 @@ package br.edu.ifba.demo.backend.api.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.edu.ifba.demo.backend.api.dto.LivroDTO;
 import br.edu.ifba.demo.backend.api.model.LivroModel;
+import br.edu.ifba.demo.backend.api.repository.GeneroRepository;
 import br.edu.ifba.demo.backend.api.repository.LivroRepository;
 
 import java.util.List;
@@ -17,61 +19,58 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
-
 @RestController
 @RequestMapping("/livro")
 public class LivroController {
     private LivroRepository livroRepository;
+    private GeneroRepository generoRepository;
 
-    public LivroController(LivroRepository livroRepository) {
-        super();
+    public LivroController(LivroRepository livroRepository, GeneroRepository generoRepository) {
         this.livroRepository = livroRepository;
+        this.generoRepository = generoRepository;
     }
 
-    @GetMapping
-    public String teste() {
-        return "Testando rota livro";
-    }
-
+    // * Listar todos */
     @GetMapping("/listall")
-    public List<LivroModel> listall() {
-        var livros = livroRepository.findAll();
-        return livros;
+    public List<LivroDTO> listall() {
+        List<LivroModel> livrosModel = livroRepository.findAll();
+        List<LivroDTO> livrosDto = LivroDTO.converterLista(livrosModel);
+        return livrosDto;
     }
-    
+
+    // * Pegar pelo ID */
     @GetMapping("/getById/{id}")
-    public LivroModel getById(@PathVariable("id") Long id) {
-        Optional<LivroModel> livro = livroRepository.findById(id);
-        if (livro.isPresent())
-            return livro.get();
+    public LivroDTO getById(@PathVariable Long id) {
+        Optional<LivroModel> livModel = livroRepository.findById(id);
+        if (livModel.isPresent()) {
+            LivroDTO livDto = LivroDTO.converter(livModel.get());
+            return livDto;
+        }
         return null;
     }
 
-    @GetMapping("/getByIsbn/{isbn}")
-    public LivroModel getByIsbn(@PathVariable("isbn") Integer isbn) {
-        Optional<LivroModel> livro = livroRepository.findByIsbn(isbn);
-        if (livro.isPresent())
-            return livro.get();
-        return null;
-    }
-    
-    @GetMapping("/getByTitulo/{titulo}")
-    public LivroModel getbyTitulo(@PathVariable("titulo") String titulo) {
-        Optional<LivroModel> livro = livroRepository.findByTitulo(titulo);
-        if (livro.isPresent())
-            return livro.get();
-        return null;
-    }
-
+    // * Salvar (cadastrar/editar) */
     @PostMapping
-    public ResponseEntity<LivroModel> addLivro(@RequestBody LivroModel livro) {
-        LivroModel savedLivro = livroRepository.save(livro);
-        return new ResponseEntity<LivroModel>(savedLivro, HttpStatus.CREATED);
+    public ResponseEntity<LivroDTO> saveLivro(@RequestBody LivroDTO liv) {
+        LivroModel savedLiv = new LivroModel();
+
+        savedLiv.setId_livro(liv.getId_livro());
+        savedLiv.setTitulo(liv.getTitulo());
+        savedLiv.setAutor(liv.getAutor());
+        savedLiv.setEditora(liv.getEditora());
+        savedLiv.setAno_publicacao(liv.getAno_publicacao());
+        savedLiv.setIsbn(liv.getIsbn());
+        savedLiv.setNum_paginas(liv.getNum_paginas());
+        savedLiv.setGenero(generoRepository.findById(liv.getGenero_id()).get());
+        livroRepository.save(savedLiv);
+
+        LivroDTO livDto = LivroDTO.converter(savedLiv);
+        return new ResponseEntity<LivroDTO>(livDto, HttpStatus.CREATED);
     }
 
+    // * Deletar */
     @DeleteMapping("/{id}")
-    public ResponseEntity<LivroModel> deleteLivro(@PathVariable("id") Long id) {
+    public ResponseEntity<LivroModel> deleteLivro(@PathVariable Long id) {
         Optional<LivroModel> livro = livroRepository.findById(id);
         if (livro.isPresent()) {
             livroRepository.delete(livro.get());

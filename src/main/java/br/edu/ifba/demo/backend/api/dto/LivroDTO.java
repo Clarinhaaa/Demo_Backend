@@ -1,6 +1,8 @@
 package br.edu.ifba.demo.backend.api.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import br.edu.ifba.demo.backend.api.model.LivroModel;
 
@@ -10,48 +12,44 @@ public class LivroDTO implements Serializable {
     private String autor;
     private String editora;
     private Integer ano_publicacao;
-    private String genero;
     private Integer isbn;
     private Integer num_paginas;
+    private Long genero_id;
 
-    public static LivroDTO converter(LivroModel livroModel) {
-        var livro = new LivroDTO();
-        livro.setId_livro(livroModel.getId_livro());
-        livro.setTitulo(livroModel.getTitulo());
-        livro.setAutor(livroModel.getAutor());
-        livro.setEditora(livroModel.getEditora());
-        livro.setAno_publicacao(livroModel.getAno_publicacao());
-        livro.setGenero(livroModel.getGenero());
-        livro.setIsbn(livroModel.getIsbn());
-        livro.setNum_paginas(livroModel.getNum_paginas());
-        return livro;
+    //* Converter model para DTO */
+    public static LivroDTO converter(LivroModel livModel) {
+        var livDto = new LivroDTO();
+        livDto.setId_livro(livModel.getId_livro());
+        livDto.setTitulo(livModel.getTitulo());
+        livDto.setAutor(livModel.getAutor());
+        livDto.setEditora(livModel.getEditora());
+        livDto.setAno_publicacao(livModel.getAno_publicacao());
+        livDto.setIsbn(livModel.getIsbn());
+        livDto.setNum_paginas(livModel.getNum_paginas());
+        livDto.setGenero_id(livModel.getGenero().getId_genero());
+        return livDto;
     }
 
-    public LivroDTO() {
-        super();
+    public static List<LivroDTO> converterLista(List<LivroModel> listaLivModel) {
+        List<LivroDTO> listaLivDto = new ArrayList<LivroDTO>();
+        for (LivroModel liv : listaLivModel) {
+            listaLivDto.add(LivroDTO.converter(liv));
+        }
+        return listaLivDto;
     }
 
-    public LivroDTO(Long id_livro, String titulo, String autor, String editora, Integer ano_publicacao, String genero,
-            Integer isbn, Integer num_paginas) {
+    public LivroDTO() {}
+
+    public LivroDTO(Long id_livro, String titulo, String autor, String editora, Integer ano_publicacao, Integer isbn,
+            Integer num_paginas, Long genero_id) {
         this.id_livro = id_livro;
         this.titulo = titulo;
         this.autor = autor;
         this.editora = editora;
         this.ano_publicacao = ano_publicacao;
-        this.genero = genero;
         this.isbn = isbn;
         this.num_paginas = num_paginas;
-    }
-
-    public LivroDTO(String titulo, String autor, String editora, Integer ano_publicacao, String genero, Integer isbn,
-            Integer num_paginas) {
-        this.titulo = titulo;
-        this.autor = autor;
-        this.editora = editora;
-        this.ano_publicacao = ano_publicacao;
-        this.genero = genero;
-        this.isbn = isbn;
-        this.num_paginas = num_paginas;
+        this.genero_id = genero_id;
     }
 
     public Long getId_livro() {
@@ -94,14 +92,6 @@ public class LivroDTO implements Serializable {
         this.ano_publicacao = ano_publicacao;
     }
 
-    public String getGenero() {
-        return genero;
-    }
-
-    public void setGenero(String genero) {
-        this.genero = genero;
-    }
-
     public Integer getIsbn() {
         return isbn;
     }
@@ -118,4 +108,13 @@ public class LivroDTO implements Serializable {
         this.num_paginas = num_paginas;
     }
 
+    public Long getGenero_id() {
+        return genero_id;
+    }
+
+    public void setGenero_id(Long genero_id) {
+        this.genero_id = genero_id;
+    }
+
+    
 }

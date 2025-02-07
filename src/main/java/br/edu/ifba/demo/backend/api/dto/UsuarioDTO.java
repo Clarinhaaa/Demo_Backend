@@ -29,15 +29,11 @@ public class UsuarioDTO implements Serializable {
 			list.add( UsuarioDTO.converter(model)) ;
 		}
 		return list;
-		// return clientes.stream().map( Cliente :: converter).collect(Collectors.toList());
 	}
 	
-	public UsuarioDTO() {
-		super();
-	}
+	public UsuarioDTO() {}
 	
 	public UsuarioDTO(Long id_usuario, String login, String senha) {
-		super();
 		this.id_usuario = id_usuario;
 		this.login = login;
 		this.senha = senha;
